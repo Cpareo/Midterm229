@@ -1,25 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './ProductForm.css';
 
-function App() {
+function ProductForm() {
+  const [formState, setFormState] = useState({
+    name: '',
+    description: '',
+    category: '',
+    quantity: '',
+    price: ''
+  });
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formState);
+    setIsSubmitted(true);
+  };
+
+  const handleCancel = () => {
+    setFormState({
+      name: '',
+      description: '',
+      category: '',
+      quantity: '',
+      price: ''
+    });
+    setIsSubmitted(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isSubmitted && <div>Form Submitted!</div>}
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input type="text" name="name" value={formState.name} onChange={handleChange} />
+        </label>
+        <label>
+          Description:
+          <input type="text" name="description" value={formState.description} onChange={handleChange} />
+        </label>
+        <label>
+          Category:
+          <input type="text" name="category" value={formState.category} onChange={handleChange} />
+        </label>
+        <label>
+          Quantity:
+          <input type="number" name="quantity" value={formState.quantity} onChange={handleChange} />
+        </label>
+        <label>
+          Price:
+          <input type="number" name="price" value={formState.price} onChange={handleChange} />
+        </label>
+        <button type="submit">Submit</button>
+        <button type="button" onClick={handleCancel}>Cancel</button>
+      </form>
     </div>
   );
 }
 
-export default App;
+export default ProductForm;
